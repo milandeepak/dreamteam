@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from mediapipe.tasks.python import audio
 import RPi.GPIO as GPIO  # Import GPIO library
+import time
 
 class Plotter(object):
     """A utility class to display the classification results."""
@@ -64,23 +65,42 @@ class Plotter(object):
 
     def turn_servo(self):
         """Turn the servo motor."""
-        # in3 = 23
-        # in4 = 24
-        # en = 25
-        # temp1=1
+        in3 = 23
+        in4 = 24
+        en = 25
+        temp1=1
 
-        # GPIO.setmode(GPIO.BCM)
-        # GPIO.setup(in3,GPIO.OUT)
-        # GPIO.setup(in4,GPIO.OUT)
-        # GPIO.setup(en,GPIO.OUT)
-        # GPIO.output(in3,GPIO.LOW)
-        # GPIO.output(in4,GPIO.LOW)
-        # p=GPIO.PWM(en,1000)
-        # p.start(25)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(in3,GPIO.OUT)
+        GPIO.setup(in4,GPIO.OUT)
+        GPIO.setup(en,GPIO.OUT)
+        GPIO.output(in3,GPIO.LOW)
+        GPIO.output(in4,GPIO.LOW)
+        p=GPIO.PWM(en,1000)
+        p.start(75)
+        print("run")
+        if(temp1==1):
+            GPIO.output(in3,GPIO.HIGH)
+            GPIO.output(in4,GPIO.LOW)
+            print("forward")
+            # Add a delay to allow the motor to run
+            time.sleep(1)  # Adjust the delay time as needed
+            # Stop the motor
+            GPIO.output(in3,GPIO.LOW)
+            GPIO.output(in4,GPIO.LOW)
+            print("stopped")
+            # time.sleep(5)  # Add a delay to allow the motor to stop
+            # GPIO.output(in3,GPIO.LOW)
+            # GPIO.output(in4,GPIO.HIGH)
+            # ("backward")
+            # # Add a delay to allow the motor to run
+            # time.sleep(0.5)  # Adjust the delay time as needed
+            # # Stop the motorprint
+            # GPIO.output(in3,GPIO.LOW)
+            # GPIO.output(in4,GPIO.LOW)
+            # print("stopped")
 
-        # GPIO.output(in3,GPIO.HIGH)
-        # GPIO.output(in4,GPIO.LOW)
-        print("The motor is running")
+
 
 def main():
     plotter = Plotter()

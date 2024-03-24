@@ -14,48 +14,24 @@ GPIO.output(in3,GPIO.LOW)
 GPIO.output(in4,GPIO.LOW)
 p=GPIO.PWM(en,1000)
 p.start(25)
-print("\n")
+
 print("The default speed & direction of motor is LOW & Forward.....")
-print("r-run s-stop f-forward b-backward l-low m-medium h-high e-exit")
-print("\n")    
 
-while(1):
+# Run the motor
+print("run")
+if(temp1==1):
+    GPIO.output(in3,GPIO.HIGH)
+    GPIO.output(in4,GPIO.LOW)
+    print("forward")
+else:
+    GPIO.output(in3,GPIO.LOW)
+    GPIO.output(in4,GPIO.HIGH)
+    print("backward")
 
-    x=input()
-    
-    if x=='r':
-        print("run")
-        if(temp1==1):
-         GPIO.output(in3,GPIO.HIGH)
-         GPIO.output(in4,GPIO.LOW)
-         print("forward")
-         x='z'
-        else:
-         GPIO.output(in3,GPIO.LOW)
-         GPIO.output(in4,GPIO.HIGH)
-         print("backward")
-         x='z'
+# Set the speed to low
+print("low")
+p.ChangeDutyCycle(75)
 
-    elif x=='l':
-        print("low")
-        p.ChangeDutyCycle(25)
-        x='z'
-
-    elif x=='m':
-        print("medium")
-        p.ChangeDutyCycle(50)
-        x='z'
-
-    elif x=='h':
-        print("high")
-        p.ChangeDutyCycle(75)
-        x='z'
-     
-    
-    elif x=='e':
-        GPIO.cleanup()
-        break
-    
-    else:
-        print("<<<  wrong data  >>>")
-        print("please enter the defined data to continue.....")
+# If you want to stop the motor after some time, use the sleep function and then cleanup
+sleep(10)  # Run the motor for 10 seconds
+GPIO.cleanup()
